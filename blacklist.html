@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <script src="main.js"></script>
   <div id="app">
     <h1>🚫 黑名单管理</h1>
     
@@ -43,9 +44,14 @@
     };
 
     function loadBlacklist() {
-      const saved = localStorage.getItem('blacklist');
-      if (saved) {
-        return { ...defaultBlacklist, ...JSON.parse(saved) };
+      try {
+        const saved = localStorage.getItem('blacklist');
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          return { ...defaultBlacklist, ...parsed };
+        }
+      } catch (e) {
+        console.error('读取黑名单失败:', e);
       }
       return defaultBlacklist;
     }

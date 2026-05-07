@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <script src="main.js"></script>
   <div id="app">
     <h1>⚙️ 推荐设置</h1>
     
@@ -79,7 +80,9 @@
 
     function initEngineSelect() {
       const engineSelect = document.getElementById('engineSelect');
-      const engines = window.SmartRecommend?.engines || {};
+      const engines = (typeof window !== 'undefined' && window.SmartRecommend?.engines) || {
+        default: { name: '默认引擎' }
+      };
       
       engineSelect.innerHTML = '';
       

@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <script src="main.js"></script>
   <div id="app">
     <h1>📅 推荐历史</h1>
     <div id="historyList"></div>
@@ -16,11 +17,18 @@
   <script>
     function loadHistory() {
       const history = {};
-      for (let i = 0; i < localStorage.length; i++) {
-        const key = localStorage.key(i);
-        if (key.startsWith('recommend_history_')) {
-          history[key] = JSON.parse(localStorage.getItem(key));
+      try {
+        for (let i = 0; i < localStorage.length; i++) {
+          const key = localStorage.key(i);
+          if (key.startsWith('recommend_history_')) {
+            const value = localStorage.getItem(key);
+            if (value) {
+              history[key] = JSON.parse(value);
+            }
+          }
         }
+      } catch (e) {
+        console.error('读取历史记录失败:', e);
       }
       return history;
     }

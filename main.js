@@ -273,7 +273,7 @@ async function generateDailyRecommend(forceRefresh = false) {
     }
 
     let filtered = engine.filter(candidates, userSettings);
-    let final = engine.postProcess(filtered);
+    let final = engine.postProcess(filtered, userSettings);
 
     if (final.length === 0) {
       showMessage('经过过滤后没有可用的推荐歌曲', 'info');
@@ -414,8 +414,9 @@ if (typeof window !== 'undefined') {
 
 async function getOrCreatePlaylist(name) {
   try {
-    const playlists = await callLxApi('/playlist/list');
-    if (!playlists || !Array.isArray(playlists)) {
+    const data = await callLxApi('/playlist/list');
+    const playlists = data?.list || data || [];
+    if (!Array.isArray(playlists) || playlists.length === 0) {
       showMessage('无法获取歌单列表', 'error');
       return null;
     }
@@ -440,7 +441,7 @@ async function getOrCreatePlaylist(name) {
 
 async function clearPlaylist(playlistId) {
   try {
-    const result = await callLxApi(`/playlist/clear?id=${playlistId}`, 'POST');
+    const result = await callLxApi(`/playlist/${playlistId}/clear`, 'POST');
     if (!result) {
       showMessage('清空歌单失败', 'error');
       return false;
@@ -455,7 +456,7 @@ async function clearPlaylist(playlistId) {
 
 async function addSongsToPlaylist(playlistId, songIds) {
   try {
-    const result = await callLxApi(`/playlist/add?id=${playlistId}`, 'POST', { ids: songIds });
+    const result = await callLxApi(`/playlist/${playlistId}/add`, 'POST', { songIds: songIds });
     if (!result) {
       showMessage('添加歌曲失败', 'error');
       return false;
