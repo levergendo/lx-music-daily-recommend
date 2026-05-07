@@ -1,0 +1,341 @@
+body {
+  background-color: #000;
+  color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  min-height: 100vh;
+  margin: 0;
+  padding: 20px;
+}
+
+#app {
+  max-width: 400px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+h1 {
+  margin-bottom: 30px;
+  font-size: 28px;
+}
+
+button {
+  display: block;
+  width: 100%;
+  padding: 15px 20px;
+  margin: 10px 0;
+  background-color: #28a745;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #218838;
+}
+
+a {
+  color: #17a2b8;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.form-group {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: #ccc;
+}
+
+.form-group input[type="number"],
+.form-group select {
+  width: 100%;
+  padding: 10px 15px;
+  background-color: #222;
+  color: #fff;
+  border: 1px solid #444;
+  border-radius: 6px;
+  font-size: 16px;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
+}
+
+.form-group input[type="number"]:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #28a745;
+}
+
+.form-group input[type="range"] {
+  width: 100%;
+  height: 6px;
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: #333;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.form-group input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  background-color: #28a745;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.form-group input[type="range"]::-webkit-slider-thumb:hover {
+  background-color: #218838;
+}
+
+.toggle-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.toggle-label input[type="checkbox"] {
+  display: none;
+}
+
+.toggle {
+  width: 48px;
+  height: 26px;
+  background-color: #444;
+  border-radius: 13px;
+  position: relative;
+  transition: background-color 0.3s ease;
+}
+
+.toggle::before {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 20px;
+  height: 20px;
+  background-color: #fff;
+  border-radius: 50%;
+  transition: transform 0.3s ease;
+}
+
+.toggle-label input[type="checkbox"]:checked + .toggle {
+  background-color: #28a745;
+}
+
+.toggle-label input[type="checkbox"]:checked + .toggle::before {
+  transform: translateX(22px);
+}
+
+#message {
+  height: 24px;
+  margin: 10px 0;
+  font-size: 14px;
+}
+
+#message.success {
+  color: #28a745;
+  animation: fadeIn 0.3s ease;
+}
+
+#message.info {
+  color: #17a2b8;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.links {
+  margin-top: 20px;
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.links a {
+  padding: 8px 16px;
+  background-color: #222;
+  border-radius: 6px;
+  transition: background-color 0.3s ease;
+}
+
+.links a:hover {
+  background-color: #333;
+  text-decoration: none;
+}
+
+.empty-tip {
+  color: #666;
+  font-size: 14px;
+  padding: 20px;
+}
+
+.history-group {
+  margin-bottom: 25px;
+  text-align: left;
+}
+
+.history-group h2 {
+  font-size: 18px;
+  margin-bottom: 12px;
+  color: #fff;
+}
+
+.song-count {
+  font-size: 14px;
+  color: #888;
+}
+
+.song-list {
+  background-color: #111;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.song-item {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #222;
+  gap: 12px;
+}
+
+.song-item:last-child {
+  border-bottom: none;
+}
+
+.song-item .index {
+  color: #666;
+  font-size: 14px;
+  min-width: 24px;
+}
+
+.song-info {
+  flex: 1;
+}
+
+.song-name {
+  font-size: 14px;
+  color: #fff;
+  margin-bottom: 4px;
+}
+
+.song-meta {
+  font-size: 12px;
+  color: #888;
+}
+
+.add-section {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 25px;
+}
+
+.add-section input {
+  flex: 1;
+  padding: 12px 15px;
+  background-color: #222;
+  color: #fff;
+  border: 1px solid #444;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.add-section input:focus {
+  outline: none;
+  border-color: #28a745;
+}
+
+.add-section button {
+  width: auto;
+  margin: 0;
+  padding: 12px 20px;
+}
+
+.blacklist-section {
+  margin-bottom: 25px;
+  text-align: left;
+}
+
+.blacklist-section h3 {
+  font-size: 16px;
+  margin-bottom: 12px;
+  color: #fff;
+}
+
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tag-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  background-color: #222;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.tag-item .remove-btn {
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  margin: 0;
+  background-color: #dc3545;
+  border-radius: 50%;
+  font-size: 14px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tag-item .remove-btn:hover {
+  background-color: #c82333;
+}
+
+.nav-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 25px;
+  justify-content: center;
+}
+
+.nav-btn {
+  padding: 10px 16px;
+  background-color: #333;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: auto;
+  margin: 0;
+}
+
+.nav-btn:hover {
+  background-color: #444;
+}

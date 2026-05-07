@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>黑名单管理</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app">
+    <h1>🚫 黑名单管理</h1>
+    
+    <div class="add-section">
+      <input type="text" id="blacklistInput" placeholder="输入歌手、专辑名或关键词">
+      <button id="addBtn">添加</button>
+    </div>
+
+    <div id="blacklistContainer">
+      <div class="blacklist-section">
+        <h3>歌手黑名单</h3>
+        <div id="artistList" class="tag-list"></div>
+      </div>
+
+      <div class="blacklist-section">
+        <h3>专辑黑名单</h3>
+        <div id="albumList" class="tag-list"></div>
+      </div>
+
+      <div class="blacklist-section">
+        <h3>关键词黑名单</h3>
+        <div id="keywordList" class="tag-list"></div>
+      </div>
+    </div>
+
+    <p><a href="index.html">← 返回首页</a></p>
+  </div>
+
+  <script>
+    const defaultBlacklist = {
+      artists: [],
+      albums: [],
+      keywords: []
+    };
+
+    function loadBlacklist() {
+      const saved = localStorage.getItem('blacklist');
+      if (saved) {
+        return { ...defaultBlacklist, ...JSON.parse(saved) };
+      }
+      return defaultBlacklist;
+    }
+
+    function saveBlacklist(blacklist) {
+      localStorage.setItem('blacklist', JSON.stringify(blacklist));
+    }
+
+    function renderBlacklist() {
+      const blacklist = loadBlacklist();
+      
+      renderTagList('artistList', blacklist.artists, 'artist');
+      renderTagList('albumList', blacklist.albums, 'album');
+      renderTagList('keywordList', blacklist.keywords, 'keyword');
+    }
+
+    function renderTagList(containerId, items, type) {
+      const container = document.getElementById(containerId);
+      if (items.length === 0) {
+        container.innerHTML = '<p class="empty-tip">暂无</p>';
+        return;
+      }
+
+      container.innerHTML = items.map((item, index) => `
+        <div class="tag-item">
+          <span>${item}</span>
+          <button class="remove-btn" data-index="${index}" data-type="${type}">×</button>
+        </div>
+      `).join('');
+
+      container.querySelectorAll('.remove-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const index = parseInt(this.dataset.index);
+          const type = this.dataset.type;
+          removeFromBlacklist(type, index);
+        });
+      });
+    }
+
+    function addToBlacklist(type, value) {
+      const blacklist = loadBlacklist();
+      const key = type + 's';
+      
+      if (!blacklist[key].includes(value)) {
+        blacklist[key].push(value);
+        saveBlacklist(blacklist);
+        renderBlacklist();
+      }
+    }
+
+    function removeFromBlacklist(type, index) {
+      const blacklist = loadBlacklist();
+      const key = type + 's';
+      blacklist[key].splice(index, 1);
+      saveBlacklist(blacklist);
+      renderBlacklist();
+    }
+
+    document.getElementById('addBtn').addEventListener('click', function() {
+      const input = document.getElementById('blacklistInput');
+      const value = input.value.trim();
+      
+      if (!value) {
+        alert('请输入内容');
+        return;
+      }
+
+      const type = prompt('请选择类型 (artist/album/keyword):', 'keyword');
+      if (type && ['artist', 'album', 'keyword'].includes(type)) {
+        addToBlacklist(type, value);
+        input.value = '';
+      }
+    });
+
+    document.getElementById('blacklistInput').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        document.getElementById('addBtn').click();
+      }
+    });
+
+    renderBlacklist();
+  </script>
+</body>
+</html>

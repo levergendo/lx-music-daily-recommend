@@ -1,0 +1,14 @@
+{
+  "manifest_version": 2,
+  "name": "智能每日推荐",
+  "version": "1.0.0",
+  "description": "基于听歌习惯自动生成每日推荐",
+  "author": "我",
+  "main": "main.js",
+  "renderer": "index.html",
+  "permissions": [
+    "webRequest",
+    "storage"
+  ],
+  "icon": "assets/icon.png"
+}

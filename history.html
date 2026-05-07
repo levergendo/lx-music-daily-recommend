@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>推荐历史</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app">
+    <h1>📅 推荐历史</h1>
+    <div id="historyList"></div>
+    <p><a href="index.html">← 返回首页</a></p>
+  </div>
+
+  <script>
+    function loadHistory() {
+      const history = {};
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key.startsWith('recommend_history_')) {
+          history[key] = JSON.parse(localStorage.getItem(key));
+        }
+      }
+      return history;
+    }
+
+    function formatDate(dateStr) {
+      const date = new Date(dateStr);
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    }
+
+    function renderHistory() {
+      const history = loadHistory();
+      const container = document.getElementById('historyList');
+      
+      if (Object.keys(history).length === 0) {
+        container.innerHTML = '<p class="empty-tip">暂无推荐历史</p>';
+        return;
+      }
+
+      const sortedDates = Object.keys(history).sort((a, b) => new Date(b) - new Date(a));
+      
+      let html = '';
+      sortedDates.forEach(dateKey => {
+        const songs = history[dateKey];
+        const dateStr = formatDate(dateKey.replace('recommend_history_', ''));
+        
+        html += `
+          <div class="history-group">
+            <h2>${dateStr} <span class="song-count">(${songs.length}首)</span></h2>
+            <div class="song-list">
+              ${songs.map((song, index) => `
+                <div class="song-item">
+                  <span class="index">${index + 1}</span>
+                  <div class="song-info">
+                    <div class="song-name">${song.name || '未知歌曲'}</div>
+                    <div class="song-meta">${song.singer || '未知歌手'} - ${song.album || '未知专辑'}</div>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
+    }
+
+    renderHistory();
+  </script>
+</body>
+</html>
